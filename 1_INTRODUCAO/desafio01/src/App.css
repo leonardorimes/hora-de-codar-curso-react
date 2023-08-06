@@ -1,0 +1,14 @@
+.desafio01 {
+  width: 100%;
+  
+}
+
+.desafio01 p{
+  text-align: center;
+  color: red;
+}
+
+.desafio01 p:hover{
+  cursor: pointer;
+  color: black;
+}
