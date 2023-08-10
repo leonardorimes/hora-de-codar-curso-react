@@ -38,8 +38,7 @@ const Game = ({
         {letters.map((letter, i) =>
           guessedLetters.includes(letter) ? (
             <span key={i} className="letter">
-              {" "}
-              {letter}{" "}
+              {letter}
             </span>
           ) : (
             <span key={i} className="blankSquare">
