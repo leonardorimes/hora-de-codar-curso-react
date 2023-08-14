@@ -59,9 +59,7 @@ function App() {
     let wordLetters = word.split("");
 
     wordLetters = wordLetters.map((l) => l.toLowerCase());
-
-
-
+    
     // fill states
     setPickedWord(word);
     setPickedCategory(category);
@@ -128,8 +126,6 @@ function App() {
       startGame();
     }
 
-   
-    
   }, [guessedLetters, letters, startGame])
 
   // restarts the game
