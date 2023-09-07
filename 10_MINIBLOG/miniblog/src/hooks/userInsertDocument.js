@@ -49,7 +49,7 @@ export const useInsertDocument = (docCollection) => {
             )
 
             checkCancelBeforeDispatch({
-                type: "",
+                type: "INSERTED_DOC",
                 payload: insertedDocument
             })
 
