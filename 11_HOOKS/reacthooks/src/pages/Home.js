@@ -8,6 +8,7 @@ import HookUseEffect from '../components/HookUseEffect'
 import { SomeContext } from '../components/HookUseContext'
 import HookUseRef from '../components/HookUseRef'
 import HookUseCallback from '../components/HookUseCallback'
+import HookUseMemo from '../components/HookUseMemo'
 
 
 const Home = () => {
@@ -23,6 +24,8 @@ const Home = () => {
         <hr />
         <HookUseRef />
         <HookUseCallback />
+        <HookUseMemo />
+
     </div>
   )
 }
