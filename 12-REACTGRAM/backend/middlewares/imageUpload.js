@@ -3,7 +3,7 @@ const path = require("path")
 
 // Destination to store image
 const imageStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
+    destination: function (req, file, cb) {
         let folder = ""
 
         if(req.baseUrl.includes("users")) {
@@ -17,7 +17,7 @@ const imageStorage = multer.diskStorage({
 
     filename:(req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname)) // 84987498489.jpeg
-    }
+    },
 })
 
 const imageUpload = multer({
@@ -29,7 +29,7 @@ const imageUpload = multer({
         }
 
         cb(undefined, true)
-    }
+    },
 
 })
 
