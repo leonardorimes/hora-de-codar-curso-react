@@ -1,23 +1,37 @@
-import "./Navbar.css";
+import "./Navbar.css"
 
 // Components
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom"
 import {
   BsSearch,
   BsHouseDoorFill,
   BsFillPersonFill,
   BsFillCameraFill,
-} from "react-icons/bs";
+} from "react-icons/bs"
 
 // hooks
-import { useState } from "react";
-import { useAuth } from "../hooks/useAuth";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react"
+import { useAuth } from "../hooks/useAuth"
+import { useDispatch, useSelector } from "react-redux"
+
+
+// Redux
+import {logout, reset} from '../slices/authSlice'
 
 const Navbar = () => {
-  const { auth } = useAuth();
-  const { user } = useSelector((state) => state.auth);
+  const { auth } = useAuth()
+  const { user } = useSelector((state) => state.auth)
+
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch()
+
+  const handleLogout = () => {
+    dispatch(logout())
+    dispatch(reset())
+
+    navigate("/login")
+  }
 
   return (
     <nav id="nav">
@@ -47,7 +61,7 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <span>
+              <span onClick={handleLogout}>
                 Sair
               </span>
             </li>
@@ -67,4 +81,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navbar
