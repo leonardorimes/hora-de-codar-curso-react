@@ -1,18 +1,18 @@
-import "./Auth.css";
+import "./Auth.css"
 
 // Components
-import { Link } from "react-router-dom";
-import Message from "../../components/Message";
+import { Link } from "react-router-dom"
+import Message from "../../components/Message"
 
 // Hooks
-import { useEffect, useState } from "react";
-import { UseSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react"
+import { UseSelector, useDispatch } from "react-redux"
 
 // Redux
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
   const handleSubmit = (e) => {
     e.preventDefault();
