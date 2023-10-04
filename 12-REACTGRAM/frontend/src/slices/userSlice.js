@@ -28,7 +28,7 @@ export const updateProfile = createAsyncThunk(
     "user/update",
     async(user, thunkAPI) => {
 
-        const token = thunkAPI.getState.auth.user.token
+        const token = thunkAPI.getState().auth.user.token
 
         const data = await userService.updateProfile(user, token)
 
@@ -74,9 +74,10 @@ export const userSlice = createSlice({
             state.message = "Usuário atualizado com sucesso!"
           })
           .addCase(updateProfile.rejected, (state, action) => {
+            console.log(state, action)
             state.loading = false;
             state.error = action.payload;
-            state.user = null;
+            state.user = {};
           })
         
     }
