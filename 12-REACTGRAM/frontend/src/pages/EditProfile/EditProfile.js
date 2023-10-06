@@ -82,7 +82,7 @@ const EditProfile = () => {
 
     // update image state
     setImageProfile(image);
-  };
+  }
 
   return (
     <div id="edit-profile">
