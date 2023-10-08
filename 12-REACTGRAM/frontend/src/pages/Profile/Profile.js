@@ -130,8 +130,15 @@ const Profile = () => {
                     alt={photo.title}
                   />
                 )}
+                {id === userAuth._id ? (
+                  <p> actions </p>
+                ) : (
+                <Link className="btn" to={`/photos/${photo._id}`}> Ver</Link>
+                
+                )}
             </div>
           ))}
+          {photos.length === 0 && <p> Ainda não há fotos publicadas </p>}
         </div>
       </div>
     </div>
