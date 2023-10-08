@@ -7,7 +7,7 @@ const initialState = {
     error: false,
     success: false,
     loading: false,
-    message: null
+    message: null,
 }
 
 // Publish user photo
@@ -30,12 +30,15 @@ export const publishPhoto = createAsyncThunk(
 
 // Get user photo
 export const getUserPhotos = createAsyncThunk(
-    "photo/userphoto",
+    "photo/userphotos",
     async(id, thunkAPI) => {
 
         const token = thunkAPI.getState().auth.user.token
 
         const data = await photoService.getUserPhotos(id, token)
+
+        console.log(data);
+        console.log(data.errors);
 
         return data
     }
@@ -62,7 +65,11 @@ export const photoSlice = createSlice({
           state.success = true;
           state.error = null;
           state.photo = action.payload;
-          state.photos.unshift(state.photo)
+          if (Array.isArray(state.photos)) {
+            state.photos.unshift(state.photo);
+          } else {
+            state.photos = [state.photo];
+          }
           state.message = "Foto publicada com sucesso"
         })
         .addCase(publishPhoto.rejected, (state, action) => {
