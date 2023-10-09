@@ -71,9 +71,9 @@ const getUserPhotos = async (id, token) => {
   }
 
   // Get a photo by id
-  const getPhoto = async(id) => {
+  const getPhoto = async(id, token) => {
 
-    const config = requestConfig("GET")
+    const config = requestConfig("GET", null, token)
 
     try {
       
