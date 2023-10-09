@@ -114,7 +114,7 @@ const Profile = () => {
       id: editId
     }
 
-    console.log(photoData)
+    
 
     dispatch(updatePhoto(photoData))
 
