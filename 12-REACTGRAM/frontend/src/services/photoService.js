@@ -54,9 +54,9 @@ const getUserPhotos = async (id, token) => {
   }
 
   // Update a photo
-  const UpdatePhoto = async(data, id, token) => {
+  const updatePhoto = async(data, id, token) => {
 
-    const config = ("PUT", data, token)
+    const config = requestConfig("PUT", data, token)
 
     try {
         const res = await fetch(api + "/photos/" + id, config)
@@ -74,7 +74,7 @@ const photoService = {
     publishPhoto,
     getUserPhotos,
     deletePhoto,
-    UpdatePhoto
+    updatePhoto
 }
 
 export default photoService

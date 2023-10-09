@@ -14,15 +14,21 @@ import { useParams } from "react-router-dom";
 
 // redux
 import { getUserDetails } from "../../slices/userSlice";
-import { publishPhoto, resetMessage, getUserPhotos, deletePhoto } from "../../slices/photoSlice";
+import {
+  publishPhoto,
+  resetMessage,
+  getUserPhotos,
+  deletePhoto,
+  updatePhoto,
+} from "../../slices/photoSlice";
 
 const Profile = () => {
   const { id } = useParams();
 
   const dispatch = useDispatch();
 
-  const { user, loading } = useSelector((state) => state.user);
-  const { user: userAuth } = useSelector((state) => state.auth);
+  const { user, loading } = useSelector((state) => state.user)
+  const { user: userAuth } = useSelector((state) => state.auth)
   const {
     photos,
     loading: loadingPhoto,
@@ -30,8 +36,13 @@ const Profile = () => {
     error: errorPhoto,
   } = useSelector((state) => state.photo);
 
-  const [title, setTitle] = useState("");
-  const [image, setImage] = useState("");
+  const [title, setTitle] = useState("")
+  const [image, setImage] = useState("")
+
+  const [editId, setEditId] = useState("")
+  const [editImage, setEditImage] = useState("")
+  const [editTitle, setEditTitle] = useState("")
+
 
   // New form and edit form refs
   const newPhotoForm = useRef();
@@ -50,11 +61,11 @@ const Profile = () => {
     setImage(image);
   };
 
- const resetComponentMessage = () => {
-  setTimeout(() => {
-    dispatch(resetMessage());
-  }, 2000);
-  }
+  const resetComponentMessage = () => {
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
+  };
 
   const submitHandle = (e) => {
     e.preventDefault();
@@ -77,18 +88,53 @@ const Profile = () => {
 
     setTitle("");
 
-    resetComponentMessage()
-
-    
+    resetComponentMessage();
   };
 
   // Delete a photo
   const handleDelete = (id) => {
+    dispatch(deletePhoto(id));
 
-    dispatch(deletePhoto(id))
+    resetComponentMessage();
+  }
+
+  // show or hide forms
+  const hideOrShowForms = () => {
+    newPhotoForm.current.classList.toggle("hide")
+    editPhotoForm.current.classList.toggle("hide")
+  }
+
+  // update a photo
+  const handleUpdate = (e) => {
+    
+    e.preventDefault()
+    
+    const photoData = {
+      title: editTitle,
+      id: editId
+    }
+
+    console.log(photoData)
+
+    dispatch(updatePhoto(photoData))
 
     resetComponentMessage()
 
+  }
+
+  // Open edit form
+  const handleEdit = (photo) => {
+    if(editPhotoForm.current.classList.contains("hide")) {
+      hideOrShowForms()
+    }
+
+    setEditId(photo._id)
+    setEditTitle(photo.title)
+    setEditImage(photo.image)
+  }
+
+  const handleCancelEdit = (e) => {
+    hideOrShowForms()
   }
 
   if (loading) {
@@ -126,17 +172,38 @@ const Profile = () => {
                 <input type="file" onChange={handleFile} />
               </label>
               {!loadingPhoto && <input type="submit" value="Postar" />}
-              {loadingPhoto && <input type="submit" disabled value="Aguarde..." />}
+              {loadingPhoto && (
+                <input type="submit" disabled value="Postar" />
+              )}
             </form>
           </div>
-          {errorPhoto && <Message msg={errorPhoto} type="error" /> }
-          {messagePhoto && <Message msg={messagePhoto} type="success" /> }
+          <div className="edit-photo hide" ref={editPhotoForm}>
+            <p>Editando: </p>
+            {editImage && (
+              <img src={`${uploads}/photos/${editImage}`} alt={editTitle} />
+            )}
+            <form onSubmit={handleUpdate}>
+              <input
+                type="text"
+                placeholder="Insira o novo título"
+                onChange={(e) => setEditTitle(e.target.value)}
+                value={editTitle || ""}
+              />
+
+              <input type="submit" value="Atualizar" />
+              <button className="cancel-btn" onClick={handleCancelEdit}>
+                Cancelar Edição
+              </button>
+            </form>
+          </div>
+          {errorPhoto && <Message msg={errorPhoto} type="error" />}
+          {messagePhoto && <Message msg={messagePhoto} type="success" />}
         </>
       )}
       <div className="user-photos">
         <h2>Fotos publicadas: </h2>
         <div className="photos-container">
-        {Array.isArray(photos) &&
+          {Array.isArray(photos) &&
             photos.map((photo) => (
               <div className="photo" key={photo._id}>
                 {photo.image && (
@@ -148,17 +215,19 @@ const Profile = () => {
                 {id === userAuth._id ? (
                   <div className="actions">
                     <Link to={`/photos/${photo._id}`}>
-                      <BsFillEyeFill />  
+                      <BsFillEyeFill />
                     </Link>
-                    <BsPencilFill />
-                    <BsXLg onClick={() => handleDelete(photo._id)}/>
+                    <BsPencilFill onClick={() => handleEdit(photo)}/>
+                    <BsXLg onClick={() => handleDelete(photo._id)} />
                   </div>
                 ) : (
-                <Link className="btn" to={`/photos/${photo._id}`}> Ver</Link>
-                
+                  <Link className="btn" to={`/photos/${photo._id}`}>
+                    {" "}
+                    Ver
+                  </Link>
                 )}
-            </div>
-          ))}
+              </div>
+            ))}
           {photos.length === 0 && <p> Ainda não há fotos publicadas </p>}
         </div>
       </div>
