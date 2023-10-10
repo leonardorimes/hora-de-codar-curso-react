@@ -79,14 +79,27 @@ export const updatePhoto = createAsyncThunk(
 );
 
 // get photo by id
-export const getPhoto = createAsyncThunk("photo/getPhoto", 
-async(id, thunkAPI) => {
+export const getPhoto = createAsyncThunk(
+  "photo/getPhoto",
+  async (id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+    const data = await photoService.getPhoto(id, token);
+
+    // check for errors
+    if (data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0]);
+    }
+    return data;
+  }
+);
+
+// like a photo
+export const like = createAsyncThunk("photo/like", async (id, thunkAPI) => {
   const token = thunkAPI.getState().auth.user.token;
-  const data = await photoService.getPhoto(id, token)
+  const data = await photoService.like(id, token);
 
-  return data
-})
-
+  return data;
+});
 
 // funcoes
 
@@ -160,14 +173,13 @@ export const photoSlice = createSlice({
         state.success = true;
         state.error = null;
 
-       state.photos.map((photo) => {
-           if(photo._id === action.payload.photo._id){
-            return photo.title = action.payload.photo.title
-           }
+        state.photos.map((photo) => {
+          if (photo._id === action.payload.photo._id) {
+            return (photo.title = action.payload.photo.title);
+          }
 
-           return photo
-
-       })
+          return photo;
+        });
 
         state.message = action.payload.message;
       })
@@ -186,6 +198,28 @@ export const photoSlice = createSlice({
         state.error = null;
         state.photo = action.payload;
       })
+      .addCase(like.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+
+        if (state.photo.likes) {
+          state.photo.likes.push(action.payload.userId);
+        }
+
+        state.photos.map((photo) => {
+          if (photo._id === action.payload.photoId) {
+            return photo.likes.push(action.payload.userId);
+          }
+          return photo;
+        });
+
+        state.message = action.payload.message;
+      })
+      .addCase(like.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 

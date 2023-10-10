@@ -1,3 +1,4 @@
+import { createAsyncThunk } from '@reduxjs/toolkit'
 import {api, requestConfig} from '../utils/config'
 
 // Publish an user photo
@@ -107,6 +108,9 @@ const getUserPhotos = async (id, token) => {
     }
 
   }
+
+
+
 
 
 const photoService = {
