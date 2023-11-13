@@ -20,13 +20,6 @@ O código está estruturado em seções correspondentes a cada módulo do curso.
 - **Firebase:** Utilizado para autenticação, armazenamento e hospedagem.
 - **TypeScript:** Adiciona tipagem estática ao código, aumentando sua qualidade e escalabilidade.
 
-## Como Utilizar o Código
-
-Cada seção do curso está organizada em diretórios separados, contendo o código correspondente. Siga as instruções presentes nos arquivos `README.md` de cada seção para entender como executar e visualizar os exemplos.
-
-## Contribuições
-
-Contribuições são bem-vindas! Se desejar melhorar ou adicionar algo ao código presente neste repositório, sinta-se à vontade para abrir issues e pull requests.
 
 ## Agradecimentos
 
